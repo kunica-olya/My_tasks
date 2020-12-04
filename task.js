@@ -20,34 +20,63 @@ let appData = {
     expenses: {},
    optionalexpenses : {},
    income:[],
-   savings:true
-};
-
-function chooseExpenses() {
-
-for (let i = 0; i < 2; i++) {
-    let a = prompt("Введите обязательную статью расходов в этом месяце", ''),
-        b = prompt("Во сколько обойдется?", '');
-
-        if ( (typeof (a)) === 'string' && (a != '' && b != '' && a.length < 50)) {
-            console.log("done");
-            appData.expenses[a] = b;
-        } else {
-          i--
+   savings:true,
+   chooseExpenses: function() {
+    for (let i = 0; i < 2; i++) {
+        let a = prompt("Введите обязательную статью расходов в этом месяце", ''),
+            b = prompt("Во сколько обойдется?", '');
+    
+            if ( (typeof (a)) === 'string' && (a != '' && b != '' && a.length < 50)) {
+                console.log("done");
+                appData.expenses[a] = b;
+            } else {
+              i--
+            }
         }
-}
-}
-chooseExpenses();
+    },
+     detectDayBudget: function() {
+    appData.moneyPerDay = (appData.budget/30).toFixed();  // toFixed - метод,преобразовывает значение
+    // следует запомнить что , toFixed меняет нашу переменную, возвращает строковое значение!!!
+    
+    alert ("Бюджет на 1 день составляет: " + appData.moneyPerDay + " руб.");
+   },
+   detectLevel: function() {
+    if (appData.moneyPerDay < 100) {
+        console.log("Это минимальный уровень достатка");
+    } else if (appData.moneyPerDay > 100 && appData.moneyPerDay < 2000 ) {
+        console.log("Это средний уровень достатка");
+    } else if (appData.moneyPerDay > 2000){
+        console.log("Это высокий уровень достатка");
+    } else {
+        console.log("Произошла ошибка");
+    }
+   },
+   checkSavings: function() {
+    if (appData.savings == true) {
+        let save = +prompt("Какова сумма накоплений?"),
+        percent = +prompt("Под какой процент?");
 
-
-
-function chooseOptExpenses() {
+        appData.mothIncome = save/100/12*percent; // рассчитываем прибыль за месяц
+        alert("Доход в месяц с вашего депозита: " + appData.mothIncome);
+    }
+   },
+   chooseOptExpenses: function() {
     for (let i = 1; i < 3; i++){
         let questionOptExpenses = prompt("Cтатья необязательных расходов?");
         appData.optionalexpenses[i] = questionOptExpenses;
         console.log(appData.optionalexpenses);
     }
-}
+   },
+   chooseIncome: function() {
+       let items = prompt('Что принесет дополнительный доход? (Перечислите через запятую)','');
+       appData.income = items.split(', ');
+       appData.income.push(prompt('Может что-то еще?'));
+       appData.income.sort(); // отсортируем по алфавиту
+   }
+};
+
+
+
 
 
 
@@ -93,44 +122,9 @@ do{
 
 
 
-function detectDayBudget() {
-    appData.moneyPerDay = (appData.budget/30).toFixed();  // toFixed - метод,преобразовывает значение
-    // следует запомнить что , toFixed меняет нашу переменную, возвращает строковое значение!!!
-    
-    alert ("Бюджет на 1 день составляет: " + appData.moneyPerDay + " руб.");
-}
-detectDayBudget();
 
 
 
-function detectLevel() {
-    if (appData.moneyPerDay < 100) {
-        console.log("Это минимальный уровень достатка");
-    } else if (appData.moneyPerDay > 100 && appData.moneyPerDay < 2000 ) {
-        console.log("Это средний уровень достатка");
-    } else if (appData.moneyPerDay > 2000){
-        console.log("Это высокий уровень достатка");
-    } else {
-        console.log("Произошла ошибка");
-    }
-}
-
-detectLevel();
-
-
-
-
-
-function checkSavings() {
-    if (appData.savings == true) {
-        let save = +prompt("Какова сумма накоплений?"),
-        percent = +prompt("Под какой процент?");
-
-        appData.mothIncome = save/100/12*percent; // рассчитываем прибыль за месяц
-        alert("Доход в месяц с вашего депозита: " + appData.mothIncome);
-    }
-}
-checkSavings();
 
 
 
